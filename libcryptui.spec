@@ -9,7 +9,7 @@ URL      : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.
 Source0  : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.tar.xz
 Summary  : UI library for DBUS functions exported by Seahorse
 Group    : Development/Tools
-License  : GFDL1.1 GPL-2.0 LGPL-2.0
+License  : GPL-2.0 LGPL-2.0
 Requires: libcryptui-bin
 Requires: libcryptui-lib
 Requires: libcryptui-data

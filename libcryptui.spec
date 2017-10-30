@@ -4,12 +4,12 @@
 #
 Name     : libcryptui
 Version  : 3.12.2
-Release  : 3
+Release  : 4
 URL      : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.tar.xz
 Source0  : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.tar.xz
 Summary  : UI library for DBUS functions exported by Seahorse
 Group    : Development/Tools
-License  : GPL-2.0 LGPL-2.0
+License  : GFDL-1.1 GPL-2.0 LGPL-2.0
 Requires: libcryptui-bin
 Requires: libcryptui-lib
 Requires: libcryptui-data
@@ -18,6 +18,7 @@ Requires: libcryptui-locales
 BuildRequires : docbook-xml
 BuildRequires : gettext
 BuildRequires : gnupg
+BuildRequires : gnupg-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : gpgme-dev
 BuildRequires : gtk-doc
@@ -102,8 +103,11 @@ locales components for the libcryptui package.
 %patch1 -p1
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1491869029
+export SOURCE_DATE_EPOCH=1509392850
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
@@ -111,11 +115,11 @@ make V=1  %{?_smp_mflags}
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1491869029
+export SOURCE_DATE_EPOCH=1509392850
 rm -rf %{buildroot}
 %make_install
 %find_lang cryptui

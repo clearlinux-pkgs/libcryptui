@@ -4,22 +4,23 @@
 #
 Name     : libcryptui
 Version  : 3.12.2
-Release  : 7
+Release  : 8
 URL      : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.tar.xz
 Source0  : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.tar.xz
-Summary  : UI library for DBUS functions exported by Seahorse
+Summary  : Library for OpenPGP prompts
 Group    : Development/Tools
 License  : GFDL-1.1 GPL-2.0 LGPL-2.0
-Requires: libcryptui-bin
-Requires: libcryptui-lib
-Requires: libcryptui-data
-Requires: libcryptui-doc
-Requires: libcryptui-locales
+Requires: libcryptui-bin = %{version}-%{release}
+Requires: libcryptui-data = %{version}-%{release}
+Requires: libcryptui-lib = %{version}-%{release}
+Requires: libcryptui-license = %{version}-%{release}
+Requires: libcryptui-locales = %{version}-%{release}
+Requires: libcryptui-man = %{version}-%{release}
+BuildRequires : buildreq-gnome
 BuildRequires : docbook-xml
 BuildRequires : gettext
 BuildRequires : gnupg
 BuildRequires : gnupg-bin
-BuildRequires : gobject-introspection-dev
 BuildRequires : gpgme-dev
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
@@ -47,7 +48,8 @@ library will become deprecated in the near future.
 %package bin
 Summary: bin components for the libcryptui package.
 Group: Binaries
-Requires: libcryptui-data
+Requires: libcryptui-data = %{version}-%{release}
+Requires: libcryptui-license = %{version}-%{release}
 
 %description bin
 bin components for the libcryptui package.
@@ -64,10 +66,11 @@ data components for the libcryptui package.
 %package dev
 Summary: dev components for the libcryptui package.
 Group: Development
-Requires: libcryptui-lib
-Requires: libcryptui-bin
-Requires: libcryptui-data
-Provides: libcryptui-devel
+Requires: libcryptui-lib = %{version}-%{release}
+Requires: libcryptui-bin = %{version}-%{release}
+Requires: libcryptui-data = %{version}-%{release}
+Provides: libcryptui-devel = %{version}-%{release}
+Requires: libcryptui = %{version}-%{release}
 
 %description dev
 dev components for the libcryptui package.
@@ -76,6 +79,7 @@ dev components for the libcryptui package.
 %package doc
 Summary: doc components for the libcryptui package.
 Group: Documentation
+Requires: libcryptui-man = %{version}-%{release}
 
 %description doc
 doc components for the libcryptui package.
@@ -84,10 +88,19 @@ doc components for the libcryptui package.
 %package lib
 Summary: lib components for the libcryptui package.
 Group: Libraries
-Requires: libcryptui-data
+Requires: libcryptui-data = %{version}-%{release}
+Requires: libcryptui-license = %{version}-%{release}
 
 %description lib
 lib components for the libcryptui package.
+
+
+%package license
+Summary: license components for the libcryptui package.
+Group: Default
+
+%description license
+license components for the libcryptui package.
 
 
 %package locales
@@ -96,6 +109,14 @@ Group: Default
 
 %description locales
 locales components for the libcryptui package.
+
+
+%package man
+Summary: man components for the libcryptui package.
+Group: Default
+
+%description man
+man components for the libcryptui package.
 
 
 %prep
@@ -107,9 +128,16 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1509392850
+export SOURCE_DATE_EPOCH=1557014501
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
@@ -119,8 +147,12 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1509392850
+export SOURCE_DATE_EPOCH=1557014501
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/libcryptui
+cp COPYING %{buildroot}/usr/share/package-licenses/libcryptui/COPYING
+cp COPYING-DOCS %{buildroot}/usr/share/package-licenses/libcryptui/COPYING-DOCS
+cp COPYING-LIBCRYPTUI %{buildroot}/usr/share/package-licenses/libcryptui/COPYING-LIBCRYPTUI
 %make_install
 %find_lang cryptui
 
@@ -177,8 +209,7 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/cryptui-0.0.pc
 
 %files doc
-%defattr(-,root,root,-)
-%doc /usr/share/man/man1/*
+%defattr(0644,root,root,0755)
 /usr/share/gtk-doc/html/libcryptui/ch01.html
 /usr/share/gtk-doc/html/libcryptui/home.png
 /usr/share/gtk-doc/html/libcryptui/index.html
@@ -204,6 +235,16 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/lib64/libcryptui.so.0
 /usr/lib64/libcryptui.so.0.0.0
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libcryptui/COPYING
+/usr/share/package-licenses/libcryptui/COPYING-DOCS
+/usr/share/package-licenses/libcryptui/COPYING-LIBCRYPTUI
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/seahorse-daemon.1
 
 %files locales -f cryptui.lang
 %defattr(-,root,root,-)

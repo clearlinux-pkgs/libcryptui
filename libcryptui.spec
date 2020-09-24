@@ -4,7 +4,7 @@
 #
 Name     : libcryptui
 Version  : 3.12.2
-Release  : 10
+Release  : 11
 URL      : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.tar.xz
 Source0  : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.tar.xz
 Summary  : UI library for DBUS functions exported by Seahorse

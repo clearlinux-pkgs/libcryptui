@@ -4,7 +4,7 @@
 #
 Name     : libcryptui
 Version  : 3.12.2
-Release  : 13
+Release  : 14
 URL      : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.tar.xz
 Source0  : https://download.gnome.org/sources/libcryptui/3.12/libcryptui-3.12.2.tar.xz
 Summary  : UI library for DBUS functions exported by Seahorse
@@ -129,15 +129,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1586239186
+export SOURCE_DATE_EPOCH=1664156779
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -146,15 +146,15 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1586239186
+export SOURCE_DATE_EPOCH=1664156779
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libcryptui
-cp %{_builddir}/libcryptui-3.12.2/COPYING %{buildroot}/usr/share/package-licenses/libcryptui/dfac199a7539a404407098a2541b9482279f690d
-cp %{_builddir}/libcryptui-3.12.2/COPYING-DOCS %{buildroot}/usr/share/package-licenses/libcryptui/c61905dc64311e8bcee6afc425fa40f917a45131
-cp %{_builddir}/libcryptui-3.12.2/COPYING-LIBCRYPTUI %{buildroot}/usr/share/package-licenses/libcryptui/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
+cp %{_builddir}/libcryptui-%{version}/COPYING %{buildroot}/usr/share/package-licenses/libcryptui/dfac199a7539a404407098a2541b9482279f690d || :
+cp %{_builddir}/libcryptui-%{version}/COPYING-DOCS %{buildroot}/usr/share/package-licenses/libcryptui/c61905dc64311e8bcee6afc425fa40f917a45131 || :
+cp %{_builddir}/libcryptui-%{version}/COPYING-LIBCRYPTUI %{buildroot}/usr/share/package-licenses/libcryptui/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f || :
 %make_install
 %find_lang cryptui
 
